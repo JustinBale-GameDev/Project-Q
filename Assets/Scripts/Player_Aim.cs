@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,10 @@ public class Player_Aim : MonoBehaviour
 	private InputActionAsset inputActions;
 	[SerializeField]
 	private GameObject playerSprite;
+
+	[SerializeField]
+	private SpriteRenderer spriteRenderer; // Current weapon sprite renderer (THis will eventually be a list and will select the one that is active)
+	
 
 	private InputAction fireAction;
 	private Camera mainCam;
@@ -51,6 +56,26 @@ public class Player_Aim : MonoBehaviour
 			FlipPlayer();
 		}
 
+		//// Flip weapon so it does not go upside down
+		//if (mousePos.x < transform.position.x)
+		//{
+		//	//Vector3 newScale = spriteRenderer.transform.localScale;
+		//	//newScale.x *= -1;
+		//	//spriteRenderer.transform.localScale = newScale;
+		//	spriteRenderer.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+		//}
+
+
+		// Weapon will be behind player or in front depending on where the mouse is
+		if (transform.rotation.z > 0)
+		{
+			spriteRenderer.sortingOrder = 0;
+		}
+		else if (transform.rotation.z < 0)
+		{
+			spriteRenderer.sortingOrder = 5;
+		}
+
 		// Shooting timer
 		if (!canFire)
 		{
@@ -72,7 +97,6 @@ public class Player_Aim : MonoBehaviour
 
 	public void FlipPlayer()
 	{
-		//facingDirection *= -1;
 		//playerSprite.transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
 		facingDirection *= -1;
 		Vector3 newScale = playerSprite.transform.localScale;
