@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 85def0e865eec604882e235df27216c1
+guid: b36e29dc20d803941bab22802d84109c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Character_DownRight_0
+      name: Idle_Front_Spritesheet_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 6
-        width: 15
-        height: 20
+        x: 0
+        y: 0
+        width: 16
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9431dd553ab7d9f4dbfdada244fd6f4c
-      internalID: 1352919299
+      spriteID: 16e88d3c14385d642b31a9a0669ba7c3
+      internalID: -256370352
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_DownRight_1
+      name: Idle_Front_Spritesheet_1
       rect:
         serializedVersion: 2
-        x: 41
-        y: 6
-        width: 15
-        height: 19
+        x: 16
+        y: 0
+        width: 16
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ba53e200f11ab74984cd90770c7e36d
-      internalID: -1733904263
+      spriteID: 4c1e80e1d7d24aa449a90cca82e41a53
+      internalID: 2028135877
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_DownRight_2
+      name: Idle_Front_Spritesheet_2
       rect:
         serializedVersion: 2
-        x: 73
-        y: 6
-        width: 15
-        height: 20
+        x: 32
+        y: 0
+        width: 16
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 436e4c31c2623304ebcd512d4e49df66
-      internalID: 1026308026
+      spriteID: 19c84c09574d2f649bf818bde21e9e2b
+      internalID: 1707840467
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Character_DownRight_3
+      name: Idle_Front_Spritesheet_3
       rect:
         serializedVersion: 2
-        x: 105
-        y: 5
-        width: 15
-        height: 20
+        x: 48
+        y: 0
+        width: 16
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +200,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 625e2d81eec610843a39e60ba54ac5ca
-      internalID: 750669981
+      spriteID: ff2523d21b5b6f747baa12d1e3277043
+      internalID: -909441737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Front_Spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c291eddde6e999b41ac7fac9e00a149c
+      internalID: -227011199
       vertices: []
       indices: 
       edges: []
@@ -217,10 +238,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Character_DownRight_0: 1352919299
-      Character_DownRight_1: -1733904263
-      Character_DownRight_2: 1026308026
-      Character_DownRight_3: 750669981
+      Idle_Front_Spritesheet_0: -256370352
+      Idle_Front_Spritesheet_1: 2028135877
+      Idle_Front_Spritesheet_2: 1707840467
+      Idle_Front_Spritesheet_3: -909441737
+      Idle_Front_Spritesheet_4: -227011199
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
