@@ -15,6 +15,8 @@ public class Player_Aim : MonoBehaviour
 	private SpriteRenderer weaponSprite; // TODO: The spriteRenderer must always be assigned to the correct weapon. Its currently a manual process in the inspector
 	[SerializeField]
 	private Animator animator;
+	//[SerializeField]
+	//private Animator weaponAnimator;
 
 	public GameObject bullet;
 	public Transform weaponTransform;
@@ -64,7 +66,7 @@ public class Player_Aim : MonoBehaviour
 		}
 
 		// Change between forward facing or backward facing
-		animator.SetBool("FacingForward", mousePos.y < 0);
+		animator.SetBool("FacingForward", mousePos.y < playerSprite.transform.position.y);
 	}
 
 	// Method to flip the player sprite
@@ -102,12 +104,20 @@ public class Player_Aim : MonoBehaviour
 			}
 		}
 
-		if (fireAction.WasPressedThisFrame() && canFire)
+		if (fireAction.IsPressed() && canFire)
 		{
+			//StartCoroutine(DelayBow());
 			canFire = false;
 			Instantiate(bullet, weaponTransform.position, Quaternion.identity);
 		}
 	}
+
+	//IEnumerator DelayBow()
+	//{
+	//	weaponAnimator.SetBool("ShotFired", true);
+	//	yield return new WaitForSeconds(0.1f);
+	//	weaponAnimator.SetBool("ShotFired", false);
+	//}
 
 	private void OnEnable()
 	{

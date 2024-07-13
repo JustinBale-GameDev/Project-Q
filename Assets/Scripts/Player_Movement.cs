@@ -10,8 +10,8 @@ public class Player_Movement : MonoBehaviour
 	private InputActionAsset inputActions;
 	[SerializeField]
 	private Rigidbody2D rb;
-	//[SerializeField]
-	//private Animator anim;
+	[SerializeField]
+	private Animator anim;
 
 	private InputAction moveAction;
 	private Vector2 moveValue;
@@ -30,8 +30,8 @@ public class Player_Movement : MonoBehaviour
 	{
 		moveValue = moveAction.ReadValue<Vector2>();
 
-		//anim.SetFloat("Horizontal", Mathf.Abs(moveValue.x)); // Convert x value into postive
-		//anim.SetFloat("Vertical", Mathf.Abs(moveValue.y));// Convert y value into postive
+		anim.SetFloat("Horizontal", Mathf.Abs(moveValue.x)); // Convert x value into postive
+		anim.SetFloat("Vertical", Mathf.Abs(moveValue.y));// Convert y value into postive
 
 		rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * moveValue);
 	}
