@@ -17,20 +17,13 @@ public class Player_Aim : MonoBehaviour
 	private Animator animator;
 	//[SerializeField]
 	//private Animator weaponAnimator;
+	[SerializeField]
 
-	public GameObject bulletPrefab;
-	public Transform weaponTransform;
-	public float timerBetweenFiring;
-	public int bulletPoolSize = 40;
-
+	private Weapon_1 weapon;
 	private InputAction fireAction;
 	private Camera mainCam;
 	private Vector3 mousePos;
-	public bool canFire;
-	private float timer;
 	private int facingDirection = 1;
-	private GameObject[] bullets;
-	private int currentBulletIndex = 0;
 
 	private void Awake()
 	{
@@ -40,13 +33,6 @@ public class Player_Aim : MonoBehaviour
 	void Start()
 	{
 		mainCam = Camera.main;
-
-		bullets = new GameObject[bulletPoolSize];
-		for (int i = 0; i < bulletPoolSize; i++)
-		{
-			bullets[i] = Instantiate(bulletPrefab);
-			bullets[i].SetActive(false);
-		}
 	}
 
 
@@ -103,33 +89,11 @@ public class Player_Aim : MonoBehaviour
 	// Method to handle shooting mechanics and firing rate
 	private void HandleShooting()
 	{
-		if (!canFire)
+		if (fireAction.IsPressed())
 		{
-			timer += Time.deltaTime;
-			if (timer > timerBetweenFiring)
-			{
-				canFire = true;
-				timer = 0f;
-			}
-		}
-
-		if (fireAction.IsPressed() && canFire)
-		{
-			//StartCoroutine(DelayBow());
-			canFire = false;
-			GameObject bullet = bullets[currentBulletIndex];
-			bullet.transform.SetPositionAndRotation(weaponTransform.position, Quaternion.identity);
-			bullet.SetActive(true);
-			currentBulletIndex = (currentBulletIndex + 1) % bulletPoolSize;
+			weapon.Fire();
 		}
 	}
-
-	//IEnumerator DelayBow()
-	//{
-	//	weaponAnimator.SetBool("ShotFired", true);
-	//	yield return new WaitForSeconds(0.1f);
-	//	weaponAnimator.SetBool("ShotFired", false);
-	//}
 
 	private void OnEnable()
 	{

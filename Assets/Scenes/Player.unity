@@ -516,6 +516,7 @@ GameObject:
   - component: {fileID: 1209404097}
   - component: {fileID: 1209404098}
   - component: {fileID: 1209404099}
+  - component: {fileID: 1209404100}
   m_Layer: 0
   m_Name: Weapon 3
   m_TagString: Untagged
@@ -611,6 +612,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1209404100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209404096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1569ea5e47d5ca42b47730ab8d8ebe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolCount: 20
+  fireRate: 1
+  velocity: 15
+  projectile: {fileID: 2745660466894436992, guid: 3759011e0c9f66b4195c2ad86f0dc937, type: 3}
+  weaponTransform: {fileID: 1209404097}
 --- !u!1 &1374663209
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,11 +680,7 @@ MonoBehaviour:
   playerSprite: {fileID: 15472524}
   weaponSprite: {fileID: 1209404098}
   animator: {fileID: 15472525}
-  bulletPrefab: {fileID: 2745660466894436992, guid: 3759011e0c9f66b4195c2ad86f0dc937, type: 3}
-  weaponTransform: {fileID: 1209404097}
-  timerBetweenFiring: 0.5
-  bulletPoolSize: 20
-  canFire: 1
+  weapon: {fileID: 1209404100}
 --- !u!1 &1787205561
 GameObject:
   m_ObjectHideFlags: 0
