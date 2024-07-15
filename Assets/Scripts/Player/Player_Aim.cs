@@ -18,9 +18,10 @@ public class Player_Aim : MonoBehaviour
 	//[SerializeField]
 	//private Animator weaponAnimator;
 
-	public GameObject bullet;
+	public GameObject bulletPrefab;
 	public Transform weaponTransform;
 	public float timerBetweenFiring;
+	public int bulletPoolSize = 40;
 
 	private InputAction fireAction;
 	private Camera mainCam;
@@ -28,6 +29,8 @@ public class Player_Aim : MonoBehaviour
 	public bool canFire;
 	private float timer;
 	private int facingDirection = 1;
+	private GameObject[] bullets;
+	private int currentBulletIndex = 0;
 
 	private void Awake()
 	{
@@ -36,8 +39,14 @@ public class Player_Aim : MonoBehaviour
 
 	void Start()
 	{
-		//mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		mainCam = Camera.main;
+
+		bullets = new GameObject[bulletPoolSize];
+		for (int i = 0; i < bulletPoolSize; i++)
+		{
+			bullets[i] = Instantiate(bulletPrefab);
+			bullets[i].SetActive(false);
+		}
 	}
 
 
@@ -108,7 +117,10 @@ public class Player_Aim : MonoBehaviour
 		{
 			//StartCoroutine(DelayBow());
 			canFire = false;
-			Instantiate(bullet, weaponTransform.position, Quaternion.identity);
+			GameObject bullet = bullets[currentBulletIndex];
+			bullet.transform.SetPositionAndRotation(weaponTransform.position, Quaternion.identity);
+			bullet.SetActive(true);
+			currentBulletIndex = (currentBulletIndex + 1) % bulletPoolSize;
 		}
 	}
 

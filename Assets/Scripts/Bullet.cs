@@ -12,8 +12,9 @@ public class Bullet : MonoBehaviour
 
 	void Start()
 	{
-		mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		mainCam = Camera.main;
 		rb.GetComponent<Rigidbody2D>();
+
 		mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
 		Vector3 direction = mousePos - transform.position;
 		Vector3 rotation = transform.position - mousePos;
@@ -22,19 +23,8 @@ public class Bullet : MonoBehaviour
 		transform.rotation = Quaternion.Euler(0, 0, rot + 90);
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
-
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.gameObject.CompareTag("Border"))
-		{
-
-		}
-
 		this.gameObject.SetActive(false);
 	}
 }

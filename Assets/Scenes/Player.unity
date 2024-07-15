@@ -662,9 +662,10 @@ MonoBehaviour:
   playerSprite: {fileID: 15472524}
   weaponSprite: {fileID: 1209404098}
   animator: {fileID: 15472525}
-  bullet: {fileID: 2745660466894436992, guid: 3759011e0c9f66b4195c2ad86f0dc937, type: 3}
+  bulletPrefab: {fileID: 2745660466894436992, guid: 3759011e0c9f66b4195c2ad86f0dc937, type: 3}
   weaponTransform: {fileID: 1209404097}
   timerBetweenFiring: 0.5
+  bulletPoolSize: 20
   canFire: 1
 --- !u!1 &1787205561
 GameObject:
