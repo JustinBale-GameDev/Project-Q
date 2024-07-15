@@ -219,14 +219,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644a7542755bb964d916ebb4d7920f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 4054143336634838939, guid: 51f73bd7cd76c8a4588b5a727cda01eb, type: 3}
-  spawnPoints:
-  - {fileID: 1605172650}
-  - {fileID: 1974313965}
-  - {fileID: 1797973450}
-  - {fileID: 1951716280}
-  spawnInterval: 2
   enemyPoolSize: 50
+  spawnInterval: 2
+  spawnRadius: 15
+  enemyPrefab: {fileID: 4054143336634838939, guid: 51f73bd7cd76c8a4588b5a727cda01eb, type: 3}
+  visualizeSpawnPositions: 1
 --- !u!1 &411578224
 GameObject:
   m_ObjectHideFlags: 0
