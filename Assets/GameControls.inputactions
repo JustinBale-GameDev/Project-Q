@@ -105,6 +105,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "EnterExitShip",
+                    "type": "Button",
+                    "id": "fa7db184-7a48-410c-8764-d61d715d7c3d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -217,6 +226,17 @@
                     "action": "Grid_Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "e4fb6953-dbae-4062-9838-68da1ef6aa86",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EnterExitShip",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

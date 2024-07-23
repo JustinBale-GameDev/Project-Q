@@ -9,17 +9,36 @@ public class Grid_Movement : MonoBehaviour
 	[SerializeField]
 	private InputActionAsset inputActions;
 	private InputAction moveAction;
+	private InputAction enterAction;
 	private Vector2 moveValue;
+	private Rigidbody2D rb;
+	private CircleCollider2D circleCollider;
 
 	public Pathnode currentNode;
 	private Pathnode previousNode;
-	public float moveSpeed = 5f;
-	private bool isMoving = false;
 	private Vector3 targetPosition;
+	private bool isMovingToNode = false;
+	public float moveSpeed = 5f;
+	[SerializeField]
+	private int facingDirection = 1;
+
+
+
+	public bool inWater = false;
+	public SpriteRenderer currentSprite;
+	public Sprite shipSprite;
+	public Sprite playerSprite;
+	public Transform shipTransform;
+	public GameObject dockUIPanel;
 
 	private void Awake()
 	{
 		moveAction = inputActions.FindActionMap("GridControls").FindAction("Grid_Movement");
+		enterAction = enterAction = inputActions.FindActionMap("GridControls").FindAction("EnterExitShip");
+
+		rb = GetComponent<Rigidbody2D>();
+		circleCollider = GetComponent<CircleCollider2D>();
+		circleCollider.enabled = false;
 	}
 
 	private void Start()
@@ -32,52 +51,72 @@ public class Grid_Movement : MonoBehaviour
 		{
 			Debug.LogError("Current node is not assigned.");
 		}
+
+		currentSprite.sprite = playerSprite;
+		dockUIPanel.SetActive(false);
 	}
 
 	private void FixedUpdate()
 	{
 		moveValue = moveAction.ReadValue<Vector2>();
+
+		if (inWater)
+		{
+			rb.MovePosition(rb.position + (moveSpeed / 2) * Time.fixedDeltaTime * moveValue);
+		}
+		if (moveValue.x < 0 && facingDirection == 1)
+		{
+			FlipBoat();
+		}
+		else if (moveValue.x > 0 && facingDirection == -1)
+		{
+			FlipBoat();
+		}
+    }
+
+	public void FlipBoat()
+	{
+		facingDirection *= -1;
+		Vector3 newScale = currentSprite.transform.localScale;
+		newScale.x *= -1;
+		currentSprite.transform.localScale = newScale;
 	}
 
 	void Update()
 	{
-		//if (!isMoving)
-		//{
-		//	if (Input.GetKeyDown(KeyCode.UpArrow))
-		//	{
-		//		TryMoveToNode(GetConnectedNode(Vector2.up), Vector2.up);
-		//	}
-		//	else if (Input.GetKeyDown(KeyCode.DownArrow))
-		//	{
-		//		TryMoveToNode(GetConnectedNode(Vector2.down), Vector2.down);
-		//	}
-		//	else if (Input.GetKeyDown(KeyCode.LeftArrow))
-		//	{
-		//		TryMoveToNode(GetConnectedNode(Vector2.left), Vector2.left);
-		//	}
-		//	else if (Input.GetKeyDown(KeyCode.RightArrow))
-		//	{
-		//		TryMoveToNode(GetConnectedNode(Vector2.right), Vector2.right);
-		//	}
-		//}
-
-		if (!isMoving && moveValue != Vector2.zero)
+		// If player is not moving but input is detected
+		if (!isMovingToNode && moveValue != Vector2.zero && !inWater)
 		{
 			Vector2 direction = moveValue.normalized;
-			Debug.Log(direction.ToString());
+			//Debug.Log(direction.ToString());
 			Pathnode targetNode = GetConnectedNode(direction);
 			TryMoveToNode(targetNode, direction);
 		}
 
-		if (isMoving)
+		if (isMovingToNode)
 		{
 			transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 			if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
 			{
-				isMoving = false;
+				isMovingToNode = false;
 				transform.position = targetPosition;
 				Debug.Log("Reached Target Node");
+
+
+				// Enable UI for dock node and allow for input to switch to ship
+				if (currentNode.isDockNode)
+				{
+					dockUIPanel.SetActive(true);
+				}
 			}
+		}
+
+		
+
+		// Check for enter action to switch to ship
+		if (dockUIPanel.activeSelf && enterAction.WasPressedThisFrame())
+		{
+			EnableDisableShipMovement();
 		}
 	}
 
@@ -125,7 +164,7 @@ public class Grid_Movement : MonoBehaviour
 		previousNode = currentNode; // Store the current node as previous
 		currentNode = targetNode;
 		targetPosition = currentNode.transform.position;
-		isMoving = true;
+		isMovingToNode = true;
 		Debug.Log($"Moving to node at position {targetPosition}");
 	}
 
@@ -146,9 +185,52 @@ public class Grid_Movement : MonoBehaviour
 	private void OnEnable()
 	{
 		moveAction.Enable();
+		enterAction.Enable();
 	}
 	private void OnDisable()
 	{
 		moveAction.Disable();
+		enterAction.Disable();
+	}
+
+	private void EnableDisableShipMovement()
+	{
+		if (dockUIPanel.activeSelf)
+		{
+			Debug.Log("Whats this?");
+		}
+
+		if (inWater)
+		{
+			// Reattach to grid
+			ReattachToGrid();
+		}
+		else
+		{
+			// Detach from grid
+			DetachFromGrid();
+		}
+	}
+
+	private void DetachFromGrid()
+	{
+		inWater = true;
+		currentSprite.sprite = shipSprite;
+		dockUIPanel.SetActive(false);
+		// Set the ship's initial position near the dock node
+		transform.position = shipTransform.transform.position; // A location will be placed next to dock to begin ship movement
+		circleCollider.enabled = true;
+		Debug.Log("Detached from grid, controlling the ship.");
+	}
+
+	private void ReattachToGrid()
+	{
+		inWater = false;
+		currentSprite.sprite = playerSprite;
+		dockUIPanel.SetActive(false);
+		// Set the player's position back to the dock node
+		transform.position = currentNode.transform.position;
+		circleCollider.enabled = false;
+		Debug.Log("Reattached to grid at the dock node.");
 	}
 }

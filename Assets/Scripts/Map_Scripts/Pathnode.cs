@@ -10,6 +10,7 @@ public class Pathnode : MonoBehaviour
 	public bool locked = true;
 
 	public bool isLevelNode = false;
+	public bool isDockNode = false;
 	public bool isLevelCompleted = false;
 	public Sprite incompleteLevelSprite; // Need to change over to animated tile/sprite
 	public Sprite completeLevelSprite; // Need to change over to animated tile/sprite
@@ -23,17 +24,17 @@ public class Pathnode : MonoBehaviour
 	}
 
 
-	private void OnDrawGizmos()
-	{
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawSphere(transform.position, 0.15f);
+	//private void OnDrawGizmos()
+	//{
+	//	Gizmos.color = Color.yellow;
+	//	Gizmos.DrawSphere(transform.position, 0.15f);
 
-		foreach (Pathnode target in connections)
-		{
-			Gizmos.color = locked ? Color.red : Color.green;
-			Gizmos.DrawLine(transform.position, target.transform.position);
-		}
-	}
+	//	foreach (Pathnode target in connections)
+	//	{
+	//		Gizmos.color = locked ? Color.red : Color.green;
+	//		Gizmos.DrawLine(transform.position, target.transform.position);
+	//	}
+	//}
 
 	public void AddConnection(Pathnode target)
 	{
