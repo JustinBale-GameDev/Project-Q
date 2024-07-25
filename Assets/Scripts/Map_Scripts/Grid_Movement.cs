@@ -9,7 +9,7 @@ public class Grid_Movement : MonoBehaviour
 	[SerializeField]
 	private InputActionAsset inputActions;
 	private InputAction moveAction;
-	private InputAction enterAction;
+	private InputAction switchMovementAction;
 	private Vector2 moveValue;
 	private Rigidbody2D rb;
 	private CircleCollider2D circleCollider;
@@ -19,7 +19,6 @@ public class Grid_Movement : MonoBehaviour
 	private Vector3 targetPosition;
 	private bool isMovingToNode = false;
 	public float moveSpeed = 5f;
-	[SerializeField]
 	private int facingDirection = 1;
 
 
@@ -34,7 +33,7 @@ public class Grid_Movement : MonoBehaviour
 	private void Awake()
 	{
 		moveAction = inputActions.FindActionMap("GridControls").FindAction("Grid_Movement");
-		enterAction = enterAction = inputActions.FindActionMap("GridControls").FindAction("EnterExitShip");
+		switchMovementAction = inputActions.FindActionMap("GridControls").FindAction("EnterExitShip");
 
 		rb = GetComponent<Rigidbody2D>();
 		circleCollider = GetComponent<CircleCollider2D>();
@@ -62,19 +61,20 @@ public class Grid_Movement : MonoBehaviour
 
 		if (inWater)
 		{
-			rb.MovePosition(rb.position + (moveSpeed / 2) * Time.fixedDeltaTime * moveValue);
+			rb.MovePosition(rb.position + (moveSpeed / 2) * Time.fixedDeltaTime * moveValue); // Water movement
 		}
-		if (moveValue.x < 0 && facingDirection == 1)
+
+		if (moveValue.x < 0 && facingDirection == 1) // Facing right
 		{
-			FlipBoat();
+			FlipSprite();
 		}
-		else if (moveValue.x > 0 && facingDirection == -1)
+		else if (moveValue.x > 0 && facingDirection == -1) // Facing left
 		{
-			FlipBoat();
+			FlipSprite();
 		}
     }
 
-	public void FlipBoat()
+	public void FlipSprite()
 	{
 		facingDirection *= -1;
 		Vector3 newScale = currentSprite.transform.localScale;
@@ -84,7 +84,7 @@ public class Grid_Movement : MonoBehaviour
 
 	void Update()
 	{
-		// If player is not moving but input is detected
+		// If player is not currently moving to a node, input is detected, and not in water
 		if (!isMovingToNode && moveValue != Vector2.zero && !inWater)
 		{
 			Vector2 direction = moveValue.normalized;
@@ -100,7 +100,7 @@ public class Grid_Movement : MonoBehaviour
 			{
 				isMovingToNode = false;
 				transform.position = targetPosition;
-				Debug.Log("Reached Target Node");
+				//Debug.Log("Reached Target Node");
 
 
 				// Enable UI for dock node and allow for input to switch to ship
@@ -111,13 +111,14 @@ public class Grid_Movement : MonoBehaviour
 			}
 		}
 
-		
-
 		// Check for enter action to switch to ship
-		if (dockUIPanel.activeSelf && enterAction.WasPressedThisFrame())
+		if (dockUIPanel.activeSelf && switchMovementAction.WasPressedThisFrame())
 		{
 			EnableDisableShipMovement();
 		}
+
+		// if inWater = true and distance to dockNode is < 0.01 { enable pannel - press enter - reattch to node (TODO: Make ship sprire appear next to dock)
+		
 	}
 
 	Pathnode GetConnectedNode(Vector2 direction)
@@ -130,7 +131,7 @@ public class Grid_Movement : MonoBehaviour
 				return node;
 			}
 		}
-		Debug.Log("No connected node found in the given direction.");
+		//Debug.Log("No connected node found in the given direction.");
 		return null;
 	}
 
@@ -144,7 +145,7 @@ public class Grid_Movement : MonoBehaviour
 			}
 			else
 			{
-				Debug.Log("Cannot move forward past a locked node.");
+				//Debug.Log("Cannot move forward past a locked node.");
 			}
 		}
 	}
@@ -165,7 +166,7 @@ public class Grid_Movement : MonoBehaviour
 		currentNode = targetNode;
 		targetPosition = currentNode.transform.position;
 		isMovingToNode = true;
-		Debug.Log($"Moving to node at position {targetPosition}");
+		//Debug.Log($"Moving to node at position {targetPosition}");
 	}
 
 	// Used for testing on button to simulate level complete
@@ -174,41 +175,35 @@ public class Grid_Movement : MonoBehaviour
 		if (currentNode != null && currentNode.isLevelNode)
 		{
 			currentNode.MarkLevelCompleted();
-			Debug.Log($"Node at position {currentNode.transform.position} is now unlocked and marked as completed.");
+			//Debug.Log($"Node at position {currentNode.transform.position} is now unlocked and marked as completed.");
 		}
 		else
 		{
-			Debug.Log("Current node is either null or not a level node.");
+			//Debug.Log("Current node is either null or not a level node.");
 		}
 	}
 
 	private void OnEnable()
 	{
 		moveAction.Enable();
-		enterAction.Enable();
+		switchMovementAction.Enable();
 	}
 	private void OnDisable()
 	{
 		moveAction.Disable();
-		enterAction.Disable();
+		switchMovementAction.Disable();
 	}
 
 	private void EnableDisableShipMovement()
 	{
-		if (dockUIPanel.activeSelf)
-		{
-			Debug.Log("Whats this?");
-		}
 
 		if (inWater)
 		{
-			// Reattach to grid
-			ReattachToGrid();
+			ReattachToGrid(); // Reattach to grid
 		}
 		else
 		{
-			// Detach from grid
-			DetachFromGrid();
+			DetachFromGrid(); // Detach from grid
 		}
 	}
 
@@ -232,5 +227,21 @@ public class Grid_Movement : MonoBehaviour
 		transform.position = currentNode.transform.position;
 		circleCollider.enabled = false;
 		Debug.Log("Reattached to grid at the dock node.");
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (inWater && collision.gameObject.CompareTag("Dock"))
+		{
+			dockUIPanel.SetActive(true);
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D collision)
+	{
+		if (inWater && collision.gameObject.CompareTag("Dock"))
+		{
+			dockUIPanel.SetActive(false);
+		}
 	}
 }
