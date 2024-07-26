@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,8 +29,8 @@ public class Grid_Movement : MonoBehaviour
 	public SpriteRenderer currentSprite;
 	public Sprite shipSprite;
 	public Sprite playerSprite;
-	public Transform shipTransform;
 	public GameObject dockUIPanel;
+	public TMP_Text dockTransition; // "Dock Ship?" / "Enter Ship?"
 
 	private void Awake()
 	{
@@ -106,6 +108,7 @@ public class Grid_Movement : MonoBehaviour
 				// Enable UI for dock node and allow for input to switch to ship
 				if (currentNode.isDockNode)
 				{
+					dockTransition.text = "Enter Ship?";
 					dockUIPanel.SetActive(true);
 				}
 			}
@@ -116,9 +119,6 @@ public class Grid_Movement : MonoBehaviour
 		{
 			EnableDisableShipMovement();
 		}
-
-		// if inWater = true and distance to dockNode is < 0.01 { enable pannel - press enter - reattch to node (TODO: Make ship sprire appear next to dock)
-		
 	}
 
 	Pathnode GetConnectedNode(Vector2 direction)
@@ -194,9 +194,9 @@ public class Grid_Movement : MonoBehaviour
 		switchMovementAction.Disable();
 	}
 
+
 	private void EnableDisableShipMovement()
 	{
-
 		if (inWater)
 		{
 			ReattachToGrid(); // Reattach to grid
@@ -212,9 +212,20 @@ public class Grid_Movement : MonoBehaviour
 		inWater = true;
 		currentSprite.sprite = shipSprite;
 		dockUIPanel.SetActive(false);
-		// Set the ship's initial position near the dock node
-		transform.position = shipTransform.transform.position; // A location will be placed next to dock to begin ship movement
-		circleCollider.enabled = true;
+
+		// Set the ship's initial position to the docked-ship position of the current node
+		Transform dockedShipPosition = currentNode.transform.Find("Docked-Ship Position");
+		if (dockedShipPosition != null)
+		{
+			transform.position = dockedShipPosition.position;
+			dockedShipPosition.GetComponent<SpriteRenderer>().enabled = false; // Hide the ship at the dock
+		}
+		else
+		{
+			Debug.LogError("Docked-Ship Position not found on the current dock node.");
+		}
+
+		circleCollider.enabled = true; // Allow for collision against land
 		Debug.Log("Detached from grid, controlling the ship.");
 	}
 
@@ -223,9 +234,22 @@ public class Grid_Movement : MonoBehaviour
 		inWater = false;
 		currentSprite.sprite = playerSprite;
 		dockUIPanel.SetActive(false);
+
 		// Set the player's position back to the dock node
 		transform.position = currentNode.transform.position;
-		circleCollider.enabled = false;
+		circleCollider.enabled = false; // Disable to allow movement on grid
+
+		// Enable the ship sprite at the dock
+		Transform dockedShipPosition = currentNode.transform.Find("Docked-Ship Position");
+		if (dockedShipPosition != null)
+		{
+			dockedShipPosition.GetComponent<SpriteRenderer>().enabled = true;
+		}
+		else
+		{
+			Debug.LogError("Docked-Ship Position not found on the current dock node.");
+		}
+
 		Debug.Log("Reattached to grid at the dock node.");
 	}
 
@@ -233,6 +257,9 @@ public class Grid_Movement : MonoBehaviour
 	{
 		if (inWater && collision.gameObject.CompareTag("Dock"))
 		{
+			currentNode = collision.gameObject.GetComponent<Pathnode>();
+
+			dockTransition.text = "Dock Ship?";
 			dockUIPanel.SetActive(true);
 		}
 	}
