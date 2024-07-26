@@ -35,8 +35,9 @@ public class Weapon_1 : MonoBehaviour
 			timeStamp = Time.time;
 
 			GameObject currentProjectile = projectiles[currentIndex];
-			currentProjectile.transform.position = weaponTransform.position;
-			currentProjectile.transform.rotation = weaponTransform.rotation;
+			//currentProjectile.transform.position = weaponTransform.position;
+			//currentProjectile.transform.rotation = weaponTransform.rotation;
+			currentProjectile.transform.SetPositionAndRotation(weaponTransform.position, weaponTransform.rotation);
 			currentProjectile.SetActive(true);
 
 			Rigidbody2D rb = currentProjectile.GetComponent<Rigidbody2D>();

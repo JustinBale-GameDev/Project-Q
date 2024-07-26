@@ -63,7 +63,7 @@ public class Grid_Movement : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Current node is not assigned.");
+			//Debug.LogError("Current node is not assigned.");
 		}
 
 		currentSprite.sprite = playerSprite;
@@ -241,11 +241,11 @@ public class Grid_Movement : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Docked-Ship Position not found on the current dock node.");
+			//Debug.LogError("Docked-Ship Position not found on the current dock node.");
 		}
 
 		circleCollider.enabled = true; // Allow for collision against land
-		Debug.Log("Detached from grid, controlling the ship.");
+		//Debug.Log("Detached from grid, controlling the ship.");
 	}
 
 	private void ReattachToGrid()
@@ -266,10 +266,10 @@ public class Grid_Movement : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Docked-Ship Position not found on the current dock node.");
+			//Debug.LogError("Docked-Ship Position not found on the current dock node.");
 		}
 
-		Debug.Log("Reattached to grid at the dock node.");
+		//Debug.Log("Reattached to grid at the dock node.");
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -299,7 +299,7 @@ public class Grid_Movement : MonoBehaviour
 		}
 		else
 		{
-			Debug.LogError("Current node is not a level node or level scene name is not set.");
+			//Debug.LogError("Current node is not a level node or level scene name is not set.");
 		}
 	}
 }

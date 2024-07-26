@@ -34,7 +34,7 @@ public class Enemy_Movement : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("Player not found by: " + this.gameObject.name);
+			//Debug.Log("Player not found by: " + this.gameObject.name);
 		}
 	}
 
