@@ -625,8 +625,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolCount: 20
-  fireRate: 1
-  velocity: 15
+  fireRate: 0.5
+  velocity: 17
   projectile: {fileID: 2745660466894436992, guid: 3759011e0c9f66b4195c2ad86f0dc937, type: 3}
   weaponTransform: {fileID: 1209404097}
 --- !u!1 &1374663209

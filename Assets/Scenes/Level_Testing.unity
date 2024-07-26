@@ -152,14 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59d7024357d0734d92cecb96a17132f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 0
-  damage: 0
-  knockback: 0
-  knockbackChance: 0
-  critChance: 0
-  speed: 0
-  fireRate: 0
 --- !u!4 &104399378
 Transform:
   m_ObjectHideFlags: 0
@@ -220,7 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPoolSize: 50
-  spawnInterval: 2
+  spawnInterval: 1
   spawnRadius: 15
   enemyPrefab: {fileID: 4054143336634838939, guid: 51f73bd7cd76c8a4588b5a727cda01eb, type: 3}
   visualizeSpawnPositions: 1
@@ -455,7 +447,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &498642071
 MonoBehaviour:
   m_ObjectHideFlags: 0

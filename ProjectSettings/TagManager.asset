@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Border
   - Dock
+  - Enemy
   layers:
   - Default
   - TransparentFX
