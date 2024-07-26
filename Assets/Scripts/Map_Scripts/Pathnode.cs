@@ -17,6 +17,8 @@ public class Pathnode : MonoBehaviour
 	public Sprite completeLevelSprite; // Need to change over to animated tile/sprite
 	private SpriteRenderer spriteRenderer;
 
+	public string levelSceneName; // property for the scene name
+
 
 	private void Awake()
 	{

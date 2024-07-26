@@ -7029,6 +7029,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1800580026363608855, guid: d5749fa624519bd48b86bd997644eab7, type: 3}
+      propertyPath: levelSceneName
+      value: Level_Testing
+      objectReference: {fileID: 0}
+    - target: {fileID: 1800580026363608855, guid: d5749fa624519bd48b86bd997644eab7, type: 3}
       propertyPath: completeLevelSprite
       value: 
       objectReference: {fileID: 4258124682561947215, guid: 0da43818c98742a45a895c9e3f3bbfa7, type: 3}

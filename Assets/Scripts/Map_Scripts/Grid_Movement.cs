@@ -4,9 +4,31 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Grid_Movement : MonoBehaviour
 {
+	//public static Grid_Movement Instance { get; private set; }
+	private void Awake()
+	{
+		//if (Instance != null && Instance != this)
+		//{
+		//	Destroy(this.gameObject);
+		//}
+		//else
+		//{
+		//	Instance = this;
+		//	DontDestroyOnLoad(gameObject);
+		//}
+
+		moveAction = inputActions.FindActionMap("GridControls").FindAction("Grid_Movement");
+		switchMovementAction = inputActions.FindActionMap("GridControls").FindAction("EnterExitShip");
+
+		rb = GetComponent<Rigidbody2D>();
+		circleCollider = GetComponent<CircleCollider2D>();
+		circleCollider.enabled = false;
+	}
+
 	[Header("References")]
 	[SerializeField]
 	private InputActionAsset inputActions;
@@ -32,15 +54,6 @@ public class Grid_Movement : MonoBehaviour
 	public GameObject dockUIPanel;
 	public TMP_Text dockTransition; // "Dock Ship?" / "Enter Ship?"
 
-	private void Awake()
-	{
-		moveAction = inputActions.FindActionMap("GridControls").FindAction("Grid_Movement");
-		switchMovementAction = inputActions.FindActionMap("GridControls").FindAction("EnterExitShip");
-
-		rb = GetComponent<Rigidbody2D>();
-		circleCollider = GetComponent<CircleCollider2D>();
-		circleCollider.enabled = false;
-	}
 
 	private void Start()
 	{
@@ -118,6 +131,12 @@ public class Grid_Movement : MonoBehaviour
 		if (dockUIPanel.activeSelf && switchMovementAction.WasPressedThisFrame())
 		{
 			EnableDisableShipMovement();
+		}
+
+		// Check for enter action to load level
+		if (currentNode.isLevelNode && switchMovementAction.WasPressedThisFrame())
+		{
+			LoadLevel();
 		}
 	}
 
@@ -269,6 +288,18 @@ public class Grid_Movement : MonoBehaviour
 		if (inWater && collision.gameObject.CompareTag("Dock"))
 		{
 			dockUIPanel.SetActive(false);
+		}
+	}
+
+	private void LoadLevel()
+	{
+		if (currentNode != null && currentNode.isLevelNode && !string.IsNullOrEmpty(currentNode.levelSceneName))
+		{
+			SceneManager.LoadScene(currentNode.levelSceneName);
+		}
+		else
+		{
+			Debug.LogError("Current node is not a level node or level scene name is not set.");
 		}
 	}
 }
