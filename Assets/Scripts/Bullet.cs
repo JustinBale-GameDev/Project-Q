@@ -12,10 +12,14 @@ public class Bullet : MonoBehaviour
 		Enemy_Health enemyHealth = collision.gameObject.GetComponent<Enemy_Health>();
 		if (enemyHealth != null)
 		{
+			//
 			enemyHealth.ReduceHealth(damage);
+
+			// Disable projectile
+			this.gameObject.SetActive(false);
 		}
 
 		// Disable projectile
-		this.gameObject.SetActive(false);
+		//this.gameObject.SetActive(false);
 	}
 }
