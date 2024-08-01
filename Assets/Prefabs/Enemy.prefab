@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bf08a0b79d35764d88bfab3b42c6e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2.5
+  speed: 2
 --- !u!114 &-108833602714271046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,5 +260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b6e9742cb0096489685293cd47789b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 20
   currentHealth: 0
+  experienceOrbPrefab: {fileID: 6088720040878402592, guid: 2f5b069ba271fb348bfb4a2b9eaaea00, type: 3}

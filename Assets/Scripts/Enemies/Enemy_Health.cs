@@ -6,9 +6,10 @@ public class Enemy_Health : MonoBehaviour
 {
     public int maxHealth;
     public int currentHealth;
+	public GameObject experienceOrbPrefab;
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
     {
         currentHealth = maxHealth;
     }
@@ -24,8 +25,18 @@ public class Enemy_Health : MonoBehaviour
 		currentHealth -= damage;
         if (currentHealth <= 0)
         {
-			Debug.Log("Enemy defeated.");
+            // Reset current health
+            currentHealth = maxHealth;
+
+			DropExperienceOrb();
+
+			//Debug.Log("Enemy defeated.");
 			this.gameObject.SetActive(false);
 		}
     }
+
+	private void DropExperienceOrb()
+	{
+		Instantiate(experienceOrbPrefab, transform.position, Quaternion.identity);
+	}
 }
