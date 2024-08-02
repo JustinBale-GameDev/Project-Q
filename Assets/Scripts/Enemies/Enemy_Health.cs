@@ -14,15 +14,10 @@ public class Enemy_Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ReduceHealth(int damage)
     {
 		currentHealth -= damage;
+        //Debug.Log("Health Reduced");
         if (currentHealth <= 0)
         {
             // Reset current health

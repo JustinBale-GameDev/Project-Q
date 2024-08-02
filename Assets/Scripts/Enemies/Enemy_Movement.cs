@@ -10,7 +10,9 @@ public class Enemy_Movement : MonoBehaviour
 	public float speed;
 	private int facingDIrection = -1;
 
-	private EnemyState enemyState;
+	// Damage variables
+	public float damageAmount = 10f;
+	public float damageDistanceThreshold = 1f;
 
 	void Start()
 	{
@@ -31,10 +33,13 @@ public class Enemy_Movement : MonoBehaviour
 			// Chase player
 			Vector2 direction = (player.position - transform.position).normalized;
 			rb.velocity = direction * speed;
-		}
-		else
-		{
-			//Debug.Log("Player not found by: " + this.gameObject.name);
+
+			// When close enough to player, apply damage
+			float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+			if (distanceToPlayer <= damageDistanceThreshold)
+			{
+				Player_Health.Instance.ApplyDamage(damageAmount);
+			}
 		}
 	}
 
@@ -43,12 +48,4 @@ public class Enemy_Movement : MonoBehaviour
 		facingDIrection *= -1;
 		transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
 	}
-}
-
-
-public enum EnemyState
-{
-	idle,
-	chasing,
-	attacking
 }

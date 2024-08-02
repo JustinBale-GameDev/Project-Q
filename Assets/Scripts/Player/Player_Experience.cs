@@ -36,6 +36,6 @@ public class Player_Experience : MonoBehaviour
 		UpdateExperienceBar();
 
 		// play a level-up sound or effect here
-		Debug.Log("Level Up! Current level: " + level);
+		//Debug.Log("Level Up! Current level: " + level);
 	}
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ExperienceOrb : MonoBehaviour
 {
 	public float moveSpeed = 8f;
+	public int experienceGranted;
 	private Transform playerTransform;
 	private bool isMovingToPlayer = false;
 
@@ -28,7 +29,7 @@ public class ExperienceOrb : MonoBehaviour
 			if (Vector2.Distance(transform.position, playerTransform.position) < 0.5f)
 			{
 				// Add experience points to player
-				playerTransform.GetComponent<Player_Experience>().AddExperience(1);
+				playerTransform.GetComponent<Player_Experience>().AddExperience(experienceGranted);
 				Destroy(gameObject);
 			}
 		}
