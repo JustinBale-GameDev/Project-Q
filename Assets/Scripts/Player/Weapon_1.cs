@@ -5,8 +5,6 @@ using UnityEngine;
 public class Weapon_1 : MonoBehaviour
 {
 	public int poolCount = 40;
-	public float fireRate = 0.5f;
-	public float velocity = 10f;
 
 	[SerializeField]
 	private GameObject projectile;
@@ -30,7 +28,7 @@ public class Weapon_1 : MonoBehaviour
 
     public void Fire()
     {
-		if (Time.time > timeStamp + fireRate)
+		if (Time.time > timeStamp + Player_Stats.Instance.currentFireRate)
 		{
 			timeStamp = Time.time;
 
@@ -43,7 +41,7 @@ public class Weapon_1 : MonoBehaviour
 			Rigidbody2D rb = currentProjectile.GetComponent<Rigidbody2D>();
 			if (rb != null)
 			{
-				rb.velocity = weaponTransform.right * velocity;
+				rb.velocity = weaponTransform.right * Player_Stats.Instance.currentVelocity;
 			}
 
 			currentIndex = (currentIndex + 1) % poolCount;

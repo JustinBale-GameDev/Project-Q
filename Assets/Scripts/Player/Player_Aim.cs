@@ -18,7 +18,6 @@ public class Player_Aim : MonoBehaviour
 	//[SerializeField]
 	//private Animator weaponAnimator;
 	[SerializeField]
-
 	private Weapon_1 weapon; // Might change if there is more than one weapon
 	private InputAction fireAction;
 	private Camera mainCam;

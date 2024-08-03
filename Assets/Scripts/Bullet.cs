@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-	public int damage;
 	public GameObject damageNumberPrefab;
 
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -16,11 +15,11 @@ public class Bullet : MonoBehaviour
 			Enemy_Health enemyHealth = collision.gameObject.GetComponent<Enemy_Health>();
 			if (enemyHealth != null)
 			{
-				enemyHealth.ReduceHealth(damage);
+				enemyHealth.ReduceHealth(Player_Stats.Instance.damage);
 
 				// Instantiate damage number prefab
 				GameObject damageNumber = Instantiate(damageNumberPrefab, collision.transform.position, Quaternion.identity);
-				damageNumber.GetComponent<DamageNumber>().SetDamage(damage);
+				damageNumber.GetComponent<DamageNumber>().SetDamage(Player_Stats.Instance.damage);
 
 				// Disable projectile
 				this.gameObject.SetActive(false);

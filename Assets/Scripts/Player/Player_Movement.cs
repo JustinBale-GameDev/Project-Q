@@ -16,10 +16,6 @@ public class Player_Movement : MonoBehaviour
 	private InputAction moveAction;
 	private Vector2 moveValue;
 
-	[Header("Changable Values")]
-	public float speed = 5;
-
-
 	private void Awake()
 	{
 		moveAction = inputActions.FindActionMap("Gameplay").FindAction("Movement");
@@ -33,7 +29,7 @@ public class Player_Movement : MonoBehaviour
 		anim.SetFloat("Horizontal", Mathf.Abs(moveValue.x)); // Convert x value into postive
 		anim.SetFloat("Vertical", Mathf.Abs(moveValue.y));// Convert y value into postive
 
-		rb.MovePosition(rb.position + speed * Time.fixedDeltaTime * moveValue);
+		rb.MovePosition(rb.position + Player_Stats.Instance.speed * Time.fixedDeltaTime * moveValue);
 	}
 
 	private void OnEnable()

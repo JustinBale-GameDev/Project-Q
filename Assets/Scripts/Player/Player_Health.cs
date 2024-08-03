@@ -20,11 +20,7 @@ public class Player_Health : MonoBehaviour
 	}
 
 	public Image healthUI;
-	public float maxHealth;
-	[SerializeField] private float currentHealth;
 	public bool isDead;
-	public float regenRate;
-	public float invincibilityDuration = 1f; // Time in seconds for invincibility
 	private bool isInvincible;
 	private float lastDamageTime;
 
@@ -32,26 +28,24 @@ public class Player_Health : MonoBehaviour
 	[SerializeField] private SpriteRenderer spriteRenderer;
 	private Color originalColor;
 
-
 	void Start()
 	{
-		currentHealth = maxHealth;
+		Player_Stats.Instance.ResetSoftStats();
 		isDead = false;
 		isInvincible = false;
 		UpdateHealthUI();
-
 		originalColor = spriteRenderer.color;
 	}
 
 	void Update()
 	{
-		if (!isDead && currentHealth < maxHealth)
+		if (!isDead && Player_Stats.Instance.currentHealth < Player_Stats.Instance.maxHealth)
 		{
 			RegenerateHealth();
 		}
 
 		// Check if invincibility has worn off
-		if (isInvincible && Time.time > lastDamageTime + invincibilityDuration)
+		if (isInvincible && Time.time > lastDamageTime + Player_Stats.Instance.invincibilityDuration)
 		{
 			isInvincible = false;
 			ResetColor();
@@ -65,8 +59,8 @@ public class Player_Health : MonoBehaviour
 			return; // Ignore damage if invincible
 		}
 
-		currentHealth -= damage;
-		currentHealth = Mathf.Max(currentHealth, 0);
+		Player_Stats.Instance.currentHealth -= (int)damage;
+		Player_Stats.Instance.currentHealth = Mathf.Max(Player_Stats.Instance.currentHealth, 0);
 		UpdateHealthUI();
 
 		// Set invincibility
@@ -74,7 +68,7 @@ public class Player_Health : MonoBehaviour
 		lastDamageTime = Time.time;
 
 		// Check if health has dropped to 0 or below
-		if (currentHealth <= 0 && !isDead)
+		if (Player_Stats.Instance.currentHealth <= 0 && !isDead)
 		{
 			isDead = true;
 		}
@@ -82,28 +76,27 @@ public class Player_Health : MonoBehaviour
 		// Start color change coroutine
 		if (spriteRenderer != null)
 		{
-			//StartCoroutine(DamageColorChange());
 			StartCoroutine(DamageFlashEffect());
 		}
 	}
 
 	private void UpdateHealthUI()
 	{
-		float healthScale = Mathf.Clamp(1 - currentHealth / maxHealth, 0, 1);
+		float healthScale = Mathf.Clamp(1 - (float)Player_Stats.Instance.currentHealth / Player_Stats.Instance.maxHealth, 0, 1);
 		healthUI.transform.localScale = new Vector3(healthScale, 1, 1);
 	}
 
 	private void RegenerateHealth()
 	{
-		currentHealth += regenRate * Time.deltaTime; // health per second
-		currentHealth = Mathf.Min(currentHealth, maxHealth); // health does not exceed maxHealth
+		Player_Stats.Instance.currentHealth += (int)(Player_Stats.Instance.regenRate * Time.deltaTime);
+		Player_Stats.Instance.currentHealth = Mathf.Min(Player_Stats.Instance.currentHealth, Player_Stats.Instance.maxHealth);
 		UpdateHealthUI();
 	}
 
 	public void Heal(int healthGain)
 	{
-		currentHealth += healthGain;
-		currentHealth = Mathf.Min(currentHealth, maxHealth);
+		Player_Stats.Instance.currentHealth += healthGain;
+		Player_Stats.Instance.currentHealth = Mathf.Min(Player_Stats.Instance.currentHealth, Player_Stats.Instance.maxHealth);
 		UpdateHealthUI();
 	}
 
@@ -112,9 +105,9 @@ public class Player_Health : MonoBehaviour
 		spriteRenderer.color = Color.red;
 		float elapsedTime = 0f;
 
-		while (elapsedTime < invincibilityDuration)
+		while (elapsedTime < Player_Stats.Instance.invincibilityDuration)
 		{
-			spriteRenderer.color = Color.Lerp(Color.red, originalColor, elapsedTime / invincibilityDuration);
+			spriteRenderer.color = Color.Lerp(Color.red, originalColor, elapsedTime / Player_Stats.Instance.invincibilityDuration);
 			elapsedTime += Time.deltaTime;
 			yield return null;
 		}
@@ -126,7 +119,7 @@ public class Player_Health : MonoBehaviour
 		float flashInterval = 0.1f; // Time between flashes
 		float elapsedTime = 0f;
 
-		while (elapsedTime < invincibilityDuration)
+		while (elapsedTime < Player_Stats.Instance.invincibilityDuration)
 		{
 			spriteRenderer.color = Color.red;
 			yield return new WaitForSeconds(flashInterval);
