@@ -152,6 +152,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a59d7024357d0734d92cecb96a17132f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  regenRate: 5
+  invincibilityDuration: 1
+  damage: 10
+  fireRate: 0.5
+  velocity: 10
+  speed: 5
+  currentHealth: 0
+  currentFireRate: 0
+  currentVelocity: 0
 --- !u!4 &104399378
 Transform:
   m_ObjectHideFlags: 0
@@ -212,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPoolSize: 50
-  spawnInterval: 1
+  spawnInterval: 0.5
   spawnRadius: 15
   enemyPrefab: {fileID: 4054143336634838939, guid: 51f73bd7cd76c8a4588b5a727cda01eb, type: 3}
   visualizeSpawnPositions: 1
