@@ -18,14 +18,26 @@ public class Enemy_Spawner : MonoBehaviour // This script exists on an empty gam
 	//private int currentEnemyIndex;
 	private float timeStamp;
 
+	// Reference to the parent for pooling
+	private GameObject projectilePoolParent;
+
 	void Start()
 	{
+		// Find or create the parent GameObject for pooling
+		projectilePoolParent = GameObject.Find("ObjectPool - Enemy Slimes");
+		if (projectilePoolParent == null)
+		{
+			projectilePoolParent = new GameObject("ObjectPool - Enemy Slimes");
+		}
+
 		enemies = new GameObject[enemyPoolSize];
 		for (int i = 0; i < enemyPoolSize; i++)
 		{
 			enemies[i] = Instantiate(enemyPrefab);
+			enemies[i].transform.SetParent(projectilePoolParent.transform);
 			enemies[i].SetActive(false);
 		}
+
 		StartCoroutine(FindPlayer());
 	}
 

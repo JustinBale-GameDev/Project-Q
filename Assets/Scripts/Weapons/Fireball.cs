@@ -38,8 +38,15 @@ public class Fireball : MonoBehaviour
 				damageNumber.GetComponent<DamageNumber>().SetDamage(damage);
 			}
 
-			// Destroy the fireball on impact
-			Destroy(gameObject);
+			// Disable projectile
+			this.gameObject.SetActive(false);
+		}
+
+		// Collision with border (Change to environment)
+		if (collision.gameObject.CompareTag("Border"))
+		{
+			// Disable projectile
+			this.gameObject.SetActive(false);
 		}
 	}
 }

@@ -16,6 +16,30 @@ public class ThrowingAxe : MonoBehaviour
 
 	private float throwTimer; // Timer to track throw intervals
 
+	// Gameobject pooling variables
+	private GameObject[] axes;
+	private GameObject projectilePoolParent;
+	private int currentIndex = 0;
+	public int poolCount = 25;
+
+	void Start()
+	{
+		// Find or create the parent GameObject for pooling
+		projectilePoolParent = GameObject.Find("ObjectPool - Axes");
+		if (projectilePoolParent == null)
+		{
+			projectilePoolParent = new GameObject("ObjectPool - Axes");
+		}
+
+		axes = new GameObject[poolCount];
+		for (int i = 0; i < poolCount; i++)
+		{
+			axes[i] = Instantiate(axePrefab);
+			axes[i].transform.SetParent(projectilePoolParent.transform);
+			axes[i].SetActive(false);
+		}
+	}
+
 	void Update()
 	{
 		// Increment the timer by the time passed since last frame
@@ -39,10 +63,16 @@ public class ThrowingAxe : MonoBehaviour
 			Vector3 direction = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0);
 
 			// Instantiate an axe and set its initial position to the player's position
-			GameObject axe = Instantiate(axePrefab, transform.position, Quaternion.identity);
+			//GameObject axe = Instantiate(axePrefab, transform.position, Quaternion.identity);
+
+			GameObject currentProjectile = axes[currentIndex];
+			currentProjectile.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+			currentProjectile.SetActive(true);
 
 			// Initialize the axe with direction, speed, return speed, damage, and player reference
-			axe.GetComponent<Axe>().Initialize(direction, speed, returnSpeed, damage, gameObject, axeLifetime);
+			currentProjectile.GetComponent<Axe>().Initialize(direction, speed, returnSpeed, damage, gameObject, axeLifetime);
+
+			currentIndex = (currentIndex + 1) % poolCount;
 		}
 	}
 }

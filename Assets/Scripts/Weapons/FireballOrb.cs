@@ -18,8 +18,29 @@ public class FireballOrb : MonoBehaviour
 	private float shootTimer; // Timer to track shooting intervals
 	private Transform player; // Reference to the player
 
+	// Gameobject pooling variables
+	private GameObject[] fireBalls;
+	private GameObject projectilePoolParent;
+	private int currentIndex = 0;
+	public int poolCount = 75;
+
 	void Start()
 	{
+		// Find or create the parent GameObject for pooling
+		projectilePoolParent = GameObject.Find("ObjectPool - Fireballs");
+		if (projectilePoolParent == null)
+		{
+			projectilePoolParent = new GameObject("ObjectPool - Fireballs");
+		}
+
+		fireBalls = new GameObject[poolCount];
+		for (int i = 0; i < poolCount; i++)
+		{
+			fireBalls[i] = Instantiate(fireballPrefab);
+			fireBalls[i].transform.SetParent(projectilePoolParent.transform);
+			fireBalls[i].SetActive(false);
+		}
+
 		StartCoroutine(FindPlayer());
 	}
 
@@ -52,8 +73,15 @@ public class FireballOrb : MonoBehaviour
 			if (enemy != null)
 			{
 				Vector3 direction = (enemy.transform.position - transform.position).normalized;
-				GameObject fireball = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
-				fireball.GetComponent<Fireball>().Initialize(direction, fireballSpeed, fireballDamage);
+				//GameObject fireball = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+
+				GameObject currentProjectile = fireBalls[currentIndex];
+				currentProjectile.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+				currentProjectile.SetActive(true);
+
+				currentProjectile.GetComponent<Fireball>().Initialize(direction, fireballSpeed, fireballDamage);
+
+				currentIndex = (currentIndex + 1) % poolCount;
 			}
 		}
 	}

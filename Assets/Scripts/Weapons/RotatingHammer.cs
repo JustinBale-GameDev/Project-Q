@@ -18,6 +18,7 @@ public class RotatingHammer : MonoBehaviour
     private float activeTime = 0f;
     private float cooldownTime = 0f;
     private Collider2D hammerCollider;
+    private SpriteRenderer spriteRenderer;
 
 
 
@@ -25,17 +26,15 @@ public class RotatingHammer : MonoBehaviour
     {
         hammerCollider = GetComponent<Collider2D>();
         hammerCollider.enabled = false;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        ActivateHammer(); // Enable weapon right away
     }
 
     // Update is called once per frame
     void Update()
     {
-        // TESTING
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			ActivateHammer();
-		}
-
 		if (isActive)
         {
             //RotateHammer();
@@ -73,14 +72,17 @@ public class RotatingHammer : MonoBehaviour
         isActive = true;
         activeTime = 0f;
         hammerCollider.enabled = true;
-    }
+		spriteRenderer.enabled = true;
+
+	}
 
     public void DeactivateHammer()
     {
         isActive = false;
         cooldownTime = 0f;
         hammerCollider.enabled = false;
-    }
+		spriteRenderer.enabled = false;
+	}
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
