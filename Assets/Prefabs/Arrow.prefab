@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2324397609262666429}
   - component: {fileID: 975485777834700691}
   - component: {fileID: 5500285151168342643}
-  - component: {fileID: 5770070541628937134}
+  - component: {fileID: 1974572037448275581}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -149,7 +149,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0.047620364, y: 0.012830462}
   m_Size: {x: 0.7761966, y: 0.17132428}
   m_Direction: 1
---- !u!114 &5770070541628937134
+--- !u!114 &1974572037448275581
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,8 +158,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2745660466894436992}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67f0ec737f8a1df4dbf9af16804ba0af, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d4b9fab086648f408dc8202aaf3a2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  damageNumberPrefab: {fileID: 5291323318181509555, guid: 6e82ec72b275aec43b24610f9df3b0f3, type: 3}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Arrow : MonoBehaviour
 {
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -22,7 +22,7 @@ public class Bullet : MonoBehaviour
 				this.gameObject.SetActive(false);
 			}
 		}
-		
+
 		// Collision with border (Change to environment)
 		if (collision.gameObject.CompareTag("Border"))
 		{
