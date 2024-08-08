@@ -33,9 +33,8 @@ public class Fireball : MonoBehaviour
 			{
 				enemyHealth.ReduceHealth(damage);
 
-				// Instantiate damage number prefab
-				GameObject damageNumber = Instantiate(damageNumberPrefab, collision.transform.position, Quaternion.identity);
-				damageNumber.GetComponent<DamageNumber>().SetDamage(damage);
+				// Use the object pool to spawn a damage number
+				ObjectPool_DamageNumber.Instance.SpawnDamageNumber(collision.transform.position, Player_Stats.Instance.damage);
 			}
 
 			// Disable projectile

@@ -44,8 +44,6 @@ public class Weapon_1 : MonoBehaviour // Bow and arrow
 			timeStamp = Time.time;
 
 			GameObject currentProjectile = projectiles[currentIndex];
-			//currentProjectile.transform.position = weaponTransform.position;
-			//currentProjectile.transform.rotation = weaponTransform.rotation;
 			currentProjectile.transform.SetPositionAndRotation(weaponTransform.position, weaponTransform.rotation);
 			currentProjectile.SetActive(true);
 
