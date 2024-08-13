@@ -30,7 +30,7 @@ public class ExperienceOrb : MonoBehaviour
 			{
 				// Add experience points to player
 				playerTransform.GetComponent<Player_Experience>().AddExperience(experienceGranted);
-				Destroy(gameObject);
+				this.gameObject.SetActive(false);
 			}
 		}
 	}

@@ -17,21 +17,16 @@ public class Enemy_Health : MonoBehaviour
     public void ReduceHealth(int damage)
     {
 		currentHealth -= damage;
-        //Debug.Log("Health Reduced");
         if (currentHealth <= 0)
         {
-            // Reset current health
-            currentHealth = maxHealth;
+            // Enabled experience orb
+			ObjectPool_ExperienceOrb.Instance.SpawnExperienceOrb(transform.position);
 
-			DropExperienceOrb();
+			// Reset current health
+			currentHealth = maxHealth;
 
-			//Debug.Log("Enemy defeated.");
+			// Disable object
 			this.gameObject.SetActive(false);
 		}
     }
-
-	private void DropExperienceOrb()
-	{
-		Instantiate(experienceOrbPrefab, transform.position, Quaternion.identity);
-	}
 }
